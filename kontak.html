@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kontak & Ulasan</title>
+  <style>
+    body {
+      background-color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 30px;
+    }
+    h2 {
+      color: #2e7d32;
+    }
+    form {
+      max-width: 500px;
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    textarea {
+      resize: vertical;
+      height: 100px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>💬 Kontak & Ulasan</h2>
+  <form onsubmit="kirimUlasan(event)">
+    <label for="nama">Nama:</label>
+    <input type="text" id="nama" required>
+
+    <label for="pesan">Ulasan / Pesan:</label>
+    <textarea id="pesan" required></textarea>
+
+    <button type="submit">Kirim</button>
+  </form>
+
+  <script>
+    function kirimUlasan(event) {
+      event.preventDefault();
+      const nama = document.getElementById("nama").value.trim();
+      const pesan = document.getElementById("pesan").value.trim();
+
+      if (nama && pesan) {
+        alert("Terima kasih, " + nama + "!\nUlasan Anda:\n\n" + pesan);
+        document.getElementById("nama").value = "";
+        document.getElementById("pesan").value = "";
+      } else {
+        alert("Mohon isi semua kolom sebelum mengirim.");
+      }
+    }
+  </script>
+
+</body>
+</html>

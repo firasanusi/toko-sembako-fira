@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Toko Sembako Fira</title>
+  <style>
+    body {
+      background-color: #F5F5DC;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .produk {
+      background-color: #fff8dc;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .produk:hover {
+      transform: scale(1.03);
+    }
+
+    .produk img {
+      width: 100px;
+      height: 100px;
+      border-radius: 5px;
+    }
+
+    .produk h4 {
+      margin: 10px 0 5px;
+      font-size: 18px;
+    }
+
+    .produk p {
+      color: #388e3c;
+      font-weight: bold;
+    }
+
+    .beli {
+      margin-top: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .beli:hover {
+      background-color: #388e3c;
+    }
+
+    .cart-box {
+      margin-top: 30px;
+      padding: 20px;
+      border-top: 2px solid #ccc;
+      background-color: #fff5e6;
+    }
+
+    .checkout {
+      background-color: #2e7d32;
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .checkout:hover {
+      background-color: #1b5e20;
+    }
+
+    .cart-items {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid" id="produk-container">
+    <!-- Produk-produk di-generate oleh JavaScript -->
+  </div>
+
+  <div class="cart-box" id="cart-box">
+    <h3>🛒 Keranjang Belanja</h3>
+    <div class="cart-items" id="cart-items">Belum ada item.</div>
+    <div>Total: <span id="total-harga">Rp 0</span></div>
+    <button class="checkout" onclick="checkout()">Checkout</button>
+  </div>
+
+  <script>
+    const produkList = [
+      { nama: "Beras (Anak Raja 5kg)", harga: 65000, img: "beras.png" },
+      { nama: "Minyak Goreng (Avena Oil 1L)", harga: 25000, img: "minyak.png" },
+      { nama: "Gula Halus (Cap Enak 1kg)", harga: 16000, img: "gula.png" },
+      { nama: "Mie Instan (Selera Rakyat 1 pcs)", harga: 20000, img: "mie.png" },
+      { nama: "Daging (Allana)", harga: 50000, img: "daging.png" },
+      { nama: "Telur Ayam Kampung (Golden Eggs)", harga: 17000, img: "telur.png" },
+      { nama: "Garam (Saxa Salt)", harga: 33000, img: "garam.png" },
+      { nama: "Susu Cair (Milk Life)", harga: 17000, img: "susu.png" },
+      { nama: "Tepung Terigu (Falcon)", harga: 50.000, img: "tepung.png" },
+    ];
+
+    let cart = [];
+    let totalHarga = 0;
+
+    const produkContainer = document.getElementById("produk-container");
+    const cartItems = document.getElementById("cart-items");
+    const totalHargaEl = document.getElementById("total-harga");
+
+    function renderProduk() {
+      produkList.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "produk";
+        div.innerHTML = `
+          <img src="${item.img}" alt="${item.nama}">
+          <h4>${item.nama}</h4>
+          <p>Rp ${item.harga.toLocaleString("id-ID")}</p>
+          <button class="beli" onclick="beliProduk(${index})">Beli</button>
+        `;
+        produkContainer.appendChild(div);
+      });
+    }
+
+    function beliProduk(index) {
+      const produk = produkList[index];
+      cart.push(produk);
+      totalHarga += produk.harga;
+      updateCart();
+    }
+
+    function updateCart() {
+      if (cart.length === 0) {
+        cartItems.innerHTML = "Belum ada item.";
+        totalHargaEl.textContent = "Rp 0";
+        return;
+      }
+
+      cartItems.innerHTML = cart.map(item => `• ${item.nama} - Rp ${item.harga.toLocaleString("id-ID")}`).join("<br>");
+      totalHargaEl.textContent = `Rp ${totalHarga.toLocaleString("id-ID")}`;
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Keranjang kosong. Silakan pilih produk terlebih dahulu.");
+        return;
+      }
+
+      let pesan = "Anda membeli:\n";
+      cart.forEach(item => {
+        pesan += `- ${item.nama} (Rp ${item.harga.toLocaleString("id-ID")})\n`;
+      });
+      pesan += `\nTotal Bayar: Rp ${totalHarga.toLocaleString("id-ID")}\n\nTerima kasih!`;
+
+      alert(pesan);
+
+      // Reset
+      cart = [];
+      totalHarga = 0;
+      updateCart();
+    }
+
+    renderProduk();
+  </script>
+
+</body>
+</html>
